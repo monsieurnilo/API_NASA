@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="fr">
 <!--Raphaël PAVARD-->
+
 <head>
   <meta charset="utf-8">
   <!--Responsive-->
@@ -24,13 +25,15 @@
   <div class="ui inverted vertical masthead center aligned segment">
     <div class="ui inverted four item menu">
       <img class="ui medium image" src="images/logo.png">
-      <a class="item" type="button" href="https://api.nasa.gov/" target="blank" >NASA Open APIs</a>
+      <a class="item" type="button" href="https://api.nasa.gov/" target="blank">NASA Open APIs</a>
       <a class="item" type="button" href="https://apod.nasa.gov/apod/" target="blank">APOD</a>
-      <a class="item" type="button" href="https://fr.wikipedia.org/wiki/Astronomy_Picture_of_the_Day" target="blank">EN SAVOIR PLUS</a>
+      <a class="item" type="button" href="https://fr.wikipedia.org/wiki/Astronomy_Picture_of_the_Day" target="blank">EN
+        SAVOIR PLUS</a>
     </div>
     <div class="jumbotron">
       <div class="ui text container">
-        <h2><i>Random Astronomy Picture Of the Day</i> affiche aléatoirement une photographie et une description de notre Univers que le site web <i>Astronomy Picture Of the Day</i> a publié quotidiennement.</h2>
+        <h2><i>Random Astronomy Picture Of the Day</i> affiche aléatoirement une photographie et une description de
+          notre Univers que le site web <i>Astronomy Picture Of the Day</i> a publié quotidiennement.</h2>
         <a class="ui huge violet button" onclick="loadPic()">Nouvelle image</a>
       </div>
     </div>
@@ -49,147 +52,147 @@
     <div class="ui center aligned container">
       <div class="ui stackable inverted divided grid">
         <div class="column">
-          <h4 class="ui inverted header">Auteurs et éditeurs</h4>
+          <h4 class="ui inverted header">Auteurs et éditeurs de APOD</h4>
           <div class="ui inverted link list">
-            <a href="https://www.mtu.edu/physics/department/faculty/nemiroff/" target="blank" class="item">Robert J. Nemiroff</a>
-            <a href="https://apod.nasa.gov/htmltest/jbonnell/www/bonnell.html" target="blank" class="item">Jerry T. Bonnell</a>
+            <a href="https://www.mtu.edu/physics/department/faculty/nemiroff/" target="blank" class="item">Robert J.
+              Nemiroff</a>
+            <a href="https://apod.nasa.gov/htmltest/jbonnell/www/bonnell.html" target="blank" class="item">Jerry T.
+              Bonnell</a>
           </div>
         </div>
       </div>
-      <div class="ui inverted section divider"></div>
-      <h5>© 2019 <a href="https://apod.nasa.gov/apod/" target="blank"> APOD</a>, Tous droits réservés.</h5>
     </div>
   </div>
 
   <script>
-  //Lance automatiquement la fonction pour afficher les données de l'API
-  loadPic();
+    //Lance automatiquement la fonction pour afficher les données de l'API
+    loadPic();
 
-  //Script du loader : quand la page a finit de charger => on enleve le loader
-  $(window).load(function(){
-    $(".ui.active.inverted.dimmer").fadeOut("slow");
-  });
+    //Script du loader : quand la page a finit de charger => on enleve le loader
+    $(window).load(function () {
+      $(".ui.active.inverted.dimmer").fadeOut("slow");
+    });
 
-  //Fonction pour calculer la date
-  function randomDate(start, end) {
-    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
-  }
-
-  function getXDomainRequest() {
-    var xdr = null;
-    if (window.XDomainRequest) {
-      xdr = new XDomainRequest();
-    } else if (window.XMLHttpRequest) {
-      xdr = new XMLHttpRequest();
-    } else {
-      alert("Votre navigateur ne gère pas l'AJAX cross-domain !");
+    //Fonction pour calculer la date
+    function randomDate(start, end) {
+      return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
     }
-    return xdr;
-  }
-  //Script de l'API
-  function loadPic(){
-    var link = "https://api.nasa.gov/planetary/apod?api_key=vJSLT9FrcBgJhsWyWnrdaxdFsBFTxuWPwbursuIg";
-    link = link.concat("&date=");
-    //Utilise la fonction randomDate en instanciant Date au lancement d'APOD (16/06/1995) + moment.js pour mettre la date au format année-mois-jour
-    link = link.concat(moment(randomDate(new Date(1995, 5, 16), new Date())).format('YYYY-MM-DD'));
 
-    var xdrRequest =  getXDomainRequest();
-
-    xdrRequest.open("GET", link);
-
-    xdrRequest.onload = function() {
-      //On supprime les éléments pour reafficher les éléments
-      var supDate = document.getElementById("date");
-      var supImage = document.getElementById("photographie");
-      var supTitle = document.getElementById("title");
-      var supAuteur = document.getElementById("auteur");
-      var supDescription = document.getElementById("description");
-      if(supDate){supDate.parentNode.removeChild(supDate);}
-      if(supImage){supImage.parentNode.removeChild(supImage);}
-      if(supTitle){supTitle.parentNode.removeChild(supTitle);}
-      if(supAuteur){supAuteur.parentNode.removeChild(supAuteur);}
-      if(supDescription){supDescription.parentNode.removeChild(supDescription);}
-
-      var divMain = document.getElementById("Main");
-
-      //Date
-      var ladate = JSON.parse(this.responseText);
-      var dateElement = document.createElement('h3');
-      dateElement.id = "date";
-      dateElement.textContent = "Publié sur APOD le ".concat(moment(ladate.date).format('DD/MM/YYYY'));
-      divMain.appendChild(dateElement);
-
-      var limage = JSON.parse(this.responseText);
-      //Si le type de média est une image alors la balise est img
-      if (limage.media_type == "image")
-      {
-        //Photographie
-        var imgElement = document.createElement('img');
-        imgElement.id = "photographie";
-        imgElement.src = limage.url;
-        //Ajout de la class
-        imgElement.classList.add("ui");
-        imgElement.classList.add("fluid");
-        imgElement.classList.add("image");
-        divMain.appendChild(imgElement);
+    function getXDomainRequest() {
+      var xdr = null;
+      if (window.XDomainRequest) {
+        xdr = new XDomainRequest();
+      } else if (window.XMLHttpRequest) {
+        xdr = new XMLHttpRequest();
+      } else {
+        alert("Votre navigateur ne gère pas l'AJAX cross-domain !");
       }
-      //Sinon la balise est iframe
-      else
-      {
-        //Video
-        var lavideo = JSON.parse(this.responseText);
-        var videoElement = document.createElement('iframe');
-        videoElement.id = "video";
-        videoElement.src = lavideo.url;
-        videoElement.width = "960";
-        videoElement.height = "540";
-        //Ajout des attributs => ici sans bordure et fond d'écran autorisé
-        videoElement.setAttribute('allowFullScreen', '');
-        videoElement.setAttribute('frameborder', '0');
-        divMain.appendChild(videoElement);
-      }
-
-      //Titre
-      var letitre = JSON.parse(this.responseText);
-      var titreElement = document.createElement('h2');
-      titreElement.id = "title";
-      titreElement.textContent = letitre.title;
-      divMain.appendChild(titreElement);
-
-      //Auteur
-      var lauteur = JSON.parse(this.responseText);
-      var autElement = document.createElement('h3');
-      autElement.id = "auteur";
-      //Si il le copyright existe alors elle est la propriété de l'auteur
-      if (lauteur.copyright)
-      {
-        autElement.textContent = "Propriété de ".concat(lauteur.copyright);
-        divMain.appendChild(autElement);
-      }
-      else //Sinon elle est la propriété de la nasa
-      {
-        autElement.textContent = "Propriété de la NASA";
-        divMain.appendChild(autElement);
-      }
-
-      //Description
-      var ladescription = JSON.parse(this.responseText);
-      var descElement = document.createElement('p');
-      descElement.id = "description";
-      descElement.textContent = ladescription.explanation;
-      descElement.classList.add("ui");
-      descElement.classList.add("raised");
-      descElement.classList.add("very");
-      descElement.classList.add("padded");
-      descElement.classList.add("text");
-      descElement.classList.add("container");
-      descElement.classList.add("segment");
-      divMain.appendChild(descElement);
-
+      return xdr;
     }
-    xdrRequest.send();
-  }
+    //Script de l'API
+    function loadPic() {
+      var link = "https://api.nasa.gov/planetary/apod?api_key=vJSLT9FrcBgJhsWyWnrdaxdFsBFTxuWPwbursuIg";
+      link = link.concat("&date=");
+      //Utilise la fonction randomDate en instanciant Date au lancement d'APOD (16/06/1995) + moment.js pour mettre la date au format année-mois-jour
+      link = link.concat(moment(randomDate(new Date(1995, 5, 16), new Date())).format('YYYY-MM-DD'));
+
+      var xdrRequest = getXDomainRequest();
+
+      xdrRequest.open("GET", link);
+
+      xdrRequest.onload = function () {
+        //On supprime les éléments pour reafficher les éléments
+        var supDate = document.getElementById("date");
+        var supImage = document.getElementById("photographie");
+        var supTitle = document.getElementById("title");
+        var supAuteur = document.getElementById("auteur");
+        var supDescription = document.getElementById("description");
+        var supVideo = document.getElementById("video");
+        if (supDate) { supDate.parentNode.removeChild(supDate); }
+        if (supImage) { supImage.parentNode.removeChild(supImage); }
+        if (supTitle) { supTitle.parentNode.removeChild(supTitle); }
+        if (supAuteur) { supAuteur.parentNode.removeChild(supAuteur); }
+        if (supDescription) { supDescription.parentNode.removeChild(supDescription); }
+        if (supVideo) { supVideo.parentNode.removeChild(supVideo); }
+
+        var divMain = document.getElementById("Main");
+
+        //Date
+        var ladate = JSON.parse(this.responseText);
+        var dateElement = document.createElement('h3');
+        dateElement.id = "date";
+        dateElement.textContent = "Publié sur APOD le ".concat(moment(ladate.date).format('DD/MM/YYYY'));
+        divMain.appendChild(dateElement);
+
+        var limage = JSON.parse(this.responseText);
+        //Si le type de média est une image alors la balise est img
+        if (limage.media_type == "image") {
+          //Photographie
+          var imgElement = document.createElement('img');
+          imgElement.id = "photographie";
+          imgElement.src = limage.url;
+          //Ajout de la class
+          imgElement.classList.add("ui");
+          imgElement.classList.add("fluid");
+          imgElement.classList.add("image");
+          divMain.appendChild(imgElement);
+        }
+        //Sinon la balise est iframe
+        else {
+          //Video
+          var lavideo = JSON.parse(this.responseText);
+          var videoElement = document.createElement('iframe');
+          videoElement.id = "video";
+          videoElement.src = lavideo.url;
+          videoElement.width = "960";
+          videoElement.height = "540";
+          //Ajout des attributs => ici sans bordure et fond d'écran autorisé
+          videoElement.setAttribute('allowFullScreen', '');
+          videoElement.setAttribute('frameborder', '0');
+          divMain.appendChild(videoElement);
+        }
+
+        //Titre
+        var letitre = JSON.parse(this.responseText);
+        var titreElement = document.createElement('h2');
+        titreElement.id = "title";
+        titreElement.textContent = letitre.title;
+        divMain.appendChild(titreElement);
+
+        //Auteur
+        var lauteur = JSON.parse(this.responseText);
+        var autElement = document.createElement('h3');
+        autElement.id = "auteur";
+        //Si il le copyright existe alors elle est la propriété de l'auteur
+        if (lauteur.copyright) {
+          autElement.textContent = "Propriété de ".concat(lauteur.copyright);
+          divMain.appendChild(autElement);
+        }
+        else //Sinon elle est la propriété de la nasa
+        {
+          autElement.textContent = "Propriété de la NASA";
+          divMain.appendChild(autElement);
+        }
+
+        //Description
+        var ladescription = JSON.parse(this.responseText);
+        var descElement = document.createElement('p');
+        descElement.id = "description";
+        descElement.textContent = ladescription.explanation;
+        descElement.classList.add("ui");
+        descElement.classList.add("raised");
+        descElement.classList.add("very");
+        descElement.classList.add("padded");
+        descElement.classList.add("text");
+        descElement.classList.add("container");
+        descElement.classList.add("segment");
+        divMain.appendChild(descElement);
+
+      }
+      xdrRequest.send();
+    }
   </script>
 
 </body>
+
 </html>
